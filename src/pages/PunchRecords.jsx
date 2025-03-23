@@ -99,7 +99,7 @@ function PunchRecords() {
       };
 
       const response = await axios.post(
-        "http://localhost:3000/api/v1/punch",
+        "https://worklog-46a33507b1c1.herokuapp.com/api/v1/punch",
         payload
       );
 
@@ -125,7 +125,7 @@ function PunchRecords() {
       onOk: async () => {
         try {
           await axios.delete(
-            `http://localhost:3000/api/v1/punch/${user.id}/${id}`
+            `https://worklog-46a33507b1c1.herokuapp.com/api/v1/punch/${user.id}/${id}`
           );
 
           setRecords((prev) => prev.filter((record) => record.id !== id));

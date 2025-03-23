@@ -33,7 +33,7 @@ function TripApproval() {
     setLoading(true);
     try {
       await axios.patch(
-        `http://localhost:3000/api/v1/business-trip/${selectedTrip.id}`,
+        `https://worklog-46a33507b1c1.herokuapp.com/api/v1/business-trip/${selectedTrip.id}`,
         { approved: true }
       );
       message.success("出張申請が承認されました");
