@@ -22,7 +22,7 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const ALLOWED_RADIUS = 10000;
+const ALLOWED_RADIUS = 50000;
 
 const BusinessTripPunchClock = () => {
   const [currentTime, setCurrentTime] = useState(dayjs().format("HH:mm:ss"));

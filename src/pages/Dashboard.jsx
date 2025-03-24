@@ -13,6 +13,7 @@ import {
 } from "@ant-design/icons";
 import jaJP from "antd/locale/ja_JP";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import PunchRecords from "./PunchRecords";
 import PunchClock from "./PunchClock";
 import BusinessTripForm from "./BusinessTripForm";
@@ -22,6 +23,8 @@ import TripApproval from "./TripApproval";
 import AbnormalPunchHandler from "./AbnormalPunchHandler";
 
 const { Sider, Content, Header } = Layout;
+
+dayjs.extend(utc);
 
 function Dashboard() {
   const [selectedMenu, setSelectedMenu] = useState("home");
@@ -44,7 +47,7 @@ function Dashboard() {
         {
           id: user?.id,
           type: punchType,
-          punch_time: new Date().toLocaleString(),
+          punch_time: dayjs().utc().format("YYYY-MM-DD HH:mm:ss"),
           punch_date: today,
         }
       );

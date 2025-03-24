@@ -16,6 +16,9 @@ import {
   Image,
 } from "antd";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -57,15 +60,15 @@ function PunchRecords() {
   const groupedRecords = Object.values(
     records.reduce((acc, record) => {
       if (!acc[dayjs(record.punch_date).format("YYYY-MM-DD")]) {
-        acc[dayjs(record.punch_date).format("YYYY-MM-DD")] = {
-          key: dayjs(record.punch_date).format("YYYY-MM-DD"),
-          date: dayjs(record.punch_date).format("YYYY-MM-DD"),
+        acc[dayjs(record?.punch_date).format("YYYY-MM-DD")] = {
+          key: dayjs(record?.punch_date).format("YYYY-MM-DD"),
+          date: dayjs(record?.punch_date).format("YYYY-MM-DD"),
           records: [],
         };
       }
-      acc[dayjs(record.punch_date).format("YYYY-MM-DD")].records.push({
+      acc[dayjs(record?.punch_date).format("YYYY-MM-DD")].records.push({
         ...record,
-        time: dayjs(record.punch_time).format("HH:mm"),
+        time: dayjs(record?.punch_time).format("HH:mm"),
       });
       return acc;
     }, {})
@@ -86,26 +89,23 @@ function PunchRecords() {
 
       const punchDateTime = dayjs(
         `${date.format("YYYY-MM-DD")} ${time.format("HH:mm:ss")}`
-      );
+      ).utc();
 
       const payload = {
         id: user?.id,
         type: values.type,
-        punch_time: punchDateTime.toLocaleString(),
+        punch_time: punchDateTime.format("YYYY-MM-DD HH:mm:ss"),
         punch_date: date.format("YYYY-MM-DD"),
         is_manual: true,
         approved: false,
         manual_reason: values.manual_reason,
       };
 
-      const response = await axios.post(
+      await axios.post(
         "https://worklog-46a33507b1c1.herokuapp.com/api/v1/punch",
         payload
       );
 
-      const newRecord = response.data;
-
-      setRecords([...records, newRecord]);
       setIsModalOpen(false);
       form.resetFields();
       message.success("打刻記録を追加しました");
