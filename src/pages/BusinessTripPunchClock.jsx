@@ -13,9 +13,12 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import isBetween from "dayjs/plugin/isBetween";
 import { AuthContext } from "../context/AuthContext";
 import { createClient } from "@supabase/supabase-js";
+
+dayjs.extend(utc);
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -261,8 +264,8 @@ const BusinessTripPunchClock = () => {
         {
           id: user.id,
           type: punchType,
-          punch_time: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-          punch_date: dayjs().format("YYYY-MM-DD"),
+          punch_time: dayjs().utc().format("YYYY-MM-DD HH:mm:ss"),
+          punch_date: dayjs().utc().format("YYYY-MM-DD"),
           is_business_trip: true,
           image_url: imageUrl,
           memo: remark,
